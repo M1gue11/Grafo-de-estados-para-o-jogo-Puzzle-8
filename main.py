@@ -1,3 +1,6 @@
+# Miguel Angelus Araruna de Aquino
+# Bruno Mikmenta
+
 from models import Grafo, Cfg
 # Main com testes #
 
