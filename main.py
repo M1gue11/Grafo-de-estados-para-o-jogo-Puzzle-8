@@ -2,21 +2,22 @@
 # Bruno Mikmenta
 
 from models import Grafo, Cfg
-# Main com testes #
+import itertools
 
-teste1 = Cfg([1,2,3,4,5,6,7,8,0])
+# Main #
 
-teste2 = Cfg([8,7,6,5,4,3,2,1,0])
+pecas = [1,2,3,4,0,5,6,7,8]#[0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-grafo = Grafo()
-grafo.adicionar_no(teste1)
-grafo.adicionar_no(teste2)
-grafo.adicionar_aresta(teste1, teste2)
+permutacoes_tuplas = list(itertools.permutations(pecas))
 
-print(grafo.get_id_by_cfg(teste2))
+no = Cfg(pecas)
+movimentos = no.movimentos_validos()
+print(no.to_string())
+print(movimentos)
 
-# print(grafo.grafo)
-# print(grafo._cfg_map)
-# print(grafo._cfg_id_vet)
+for movimento_idx in permutacoes_tuplas:
+    no = Cfg(tupla)
+    movimentos = no.movimentos_validos()
+
 
 

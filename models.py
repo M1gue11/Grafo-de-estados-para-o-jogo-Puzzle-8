@@ -6,27 +6,39 @@ class Cfg():
     def incrementa_id():
         Cfg.id_cfg+=1
 
-    def __init__(self, estado: list):
-        self.estado = estado
+    def __init__(self, estado: tuple | list):
+        self.estado = list(estado)
         self.id = Cfg.id_cfg
         Cfg.incrementa_id()
+
+    def movimentos_validos(self) -> list:
+        # retorna uma lista com indices das peças que podem ser movimentadas
+        index_0 = self.estado.index(0)
+        posicoes = [-1, 1, -3, 3]
+        ret = []
+        for i in range(len(posicoes)):
+            print(posicoes[i])
+            if index_0 + posicoes[i] >= 0 and index_0 + posicoes[i] < len(self.estado):
+                ret.append(posicoes[i])
+        return ret 
 
     def to_string(self) -> str:
         string = "[ "
         for i in range(len(self.estado)):
+            num = '-' if self.estado[i] == 0 else self.estado[i]
             if i == 2 or i == 5 or i == 8:
-                string += f"{self.estado[i]} ]"
+                string += f"{num} ]"
                 if i < 8:
                     string += "\n[ "
             else:
-                string += f"{self.estado[i]}, "
+                string += f"{num}, "
         return f"Id: {self.id} Estado:\n{string}"
 
 
 class Grafo():
 
     def __init__(self):
-        self.grafo = {}
+        self.grafo: dict[int, int] = {}
         self._cfg_map: dict[Cfg, int] = {}
         self._cfg_id_vet: list[Cfg] = []
 
