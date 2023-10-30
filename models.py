@@ -1,15 +1,15 @@
-class Cfg():
+class No():
 
     #contador para termos os ids dos estados
     id_cfg = 1
 
     def incrementa_id():
-        Cfg.id_cfg+=1
+        No.id_cfg+=1
 
     def __init__(self, estado: tuple):
         self.estado = estado
-        self.id = Cfg.id_cfg
-        Cfg.incrementa_id()
+        self.id = No.id_cfg
+        No.incrementa_id()
 
     def movimentos_validos(self) -> list:
         # retorna uma lista com indices das peças que podem ser movimentadas
@@ -17,8 +17,15 @@ class Cfg():
         posicoes = [-1, 1, -3, 3]
         ret = []
         for i in range(len(posicoes)):
-            if index_0 + posicoes[i] >= 0 and index_0 + posicoes[i] < len(self.estado):
-                ret.append(posicoes[i])
+            idx_final = index_0 + posicoes[i]
+            if idx_final >= 0 and idx_final < len(self.estado):
+                linha_0 = index_0 // 3
+                linha_final = idx_final // 3
+                # print(f"linha_0: {linha_0} linha_final: {linha_final} posicao[i]: {posicoes[i]}")
+                if posicoes[i] in [-1, 1] and linha_0 != linha_final:
+                    pass
+                else:
+                    ret.append(posicoes[i])
         return ret
     
     def move_peca(self, offset: int) -> tuple:
@@ -49,16 +56,16 @@ class Grafo():
 
     def __init__(self):
         self.grafo: dict[int, list[int]] = {}
-        self._cfg_map: dict[tuple, Cfg] = {}
-        self._cfg_id_vet: list[Cfg] = []
+        self._cfg_map: dict[tuple, No] = {}
+        self._cfg_id_vet: list[No] = []
 
-    def adicionar_no(self, no: Cfg):
+    def adicionar_no(self, no: No):
         if no.id not in self.grafo:
             self.grafo[no.id] = []
             self._cfg_map[no.estado] = no
             self._cfg_id_vet.append(no)
     
-    def adicionar_aresta(self, no1: Cfg, no2: Cfg):
+    def adicionar_aresta(self, no1: No, no2: No):
         g = self.grafo
         if no1.id not in self.grafo:
             raise Exception(f"Nó id: {no1.id} não está no grafo")
@@ -72,14 +79,14 @@ class Grafo():
         g[no1.id].append(no2.id)
         g[no2.id].append(no1.id)
     
-    def get_no_by_id(self, id) -> Cfg:
+    def get_no_by_id(self, id) -> No:
         try:
             return self._cfg_id_vet[id-1]
         except:
             # print(f"Id {id} não encontrado!")
             return None
 
-    def get_no_by_cfg(self, estado: tuple) -> Cfg:
+    def get_no_by_cfg(self, estado: tuple) -> No:
         try:
             return self._cfg_map[estado]
         except:

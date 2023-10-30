@@ -1,22 +1,19 @@
 # Miguel Angelus Araruna de Aquino
 # Bruno Mikmenta
 
-from models import Grafo, Cfg
+from models import Grafo, No
 import itertools
 from tqdm import tqdm
 
 # Main #
 
-pecas = (1,2,3,4,5,6,7,8,0) #[0, 1, 2, 3, 4, 5, 6, 7, 8]
-
+pecas = (1,2,3,4,5,6,7,8,0)
 permutacoes_tuplas = list(itertools.permutations(pecas))
-
 grafo = Grafo()
-
 for tupla in tqdm(permutacoes_tuplas):
     no = grafo.get_no_by_cfg(tupla)
     if no == None:
-        no = Cfg(tupla)
+        no = No(tupla)
 
     grafo.adicionar_no(no)
     movimentos = no.movimentos_validos()
@@ -27,15 +24,13 @@ for tupla in tqdm(permutacoes_tuplas):
         novo_no = grafo.get_no_by_cfg(novo_estado)
 
         if novo_no == None:
-            novo_no = Cfg(novo_estado)
+            novo_no = No(novo_estado)
 
         grafo.adicionar_no(novo_no)
         grafo.adicionar_aresta(no, novo_no)
 
-
-        # print(novo_no.to_string())
-
 # print(grafo.to_string())
+print(grafo.grafo.__len__())
 
 op = input("Digite:")
 while(op != "stop"):

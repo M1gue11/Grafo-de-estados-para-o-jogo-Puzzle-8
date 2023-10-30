@@ -1,3 +1,3 @@
 all:
-	clear
-	python3 main.py 
+	@clear
+	@python3 main.py
