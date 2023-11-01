@@ -101,3 +101,26 @@ class Grafo():
             s += f"{key} : {value}; "
         return s
 
+
+    def BFS_alg(self, no: No) -> list:
+        L: list[list[No]] = []
+        queue: list[No] = []
+        visited: list[No] = []
+
+        L.append([])
+        L[0].append(no)
+        queue.append(no)
+        layer = 1
+        while queue:
+            L.append([])
+            current_no = queue.pop(0)
+            visited.append(current_no)
+            for vizinho in self.grafo[current_no]:
+                if vizinho not in visited:
+                    queue.append(vizinho)
+                    visited.append(vizinho)
+                    L[layer].append(vizinho)
+            if len(L[layer]) == 0:
+                return L
+            layer+=1
+

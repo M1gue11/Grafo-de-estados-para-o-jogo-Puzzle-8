@@ -51,3 +51,5 @@ while(op != "stop"):
         print(grafo.get_no_by_id(no_id).to_string())
 
     op = input("Digite:")
+
+L: list[list[No]] = grafo.BFS_alg(grafo.get_no_by_id(0))
