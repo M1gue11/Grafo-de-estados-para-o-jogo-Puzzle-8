@@ -100,27 +100,63 @@ class Grafo():
                 s += "\n"
             s += f"{key} : {value}; "
         return s
+    
+    def quantidade_de_nos(self) -> int:
+        return len(self.grafo)
 
+    def quantidade_de_arestas(self) -> int:
+        qtd_arestas = 0
+        for key, value in self.grafo.items():
+            qtd_arestas += len(value)
+        return qtd_arestas
 
-    def BFS_alg(self, no: No) -> list:
-        L: list[list[No]] = []
-        queue: list[No] = []
-        visited: list[No] = []
+    # def BFS_alg(self, no_id: int) -> list:
+    #     L: list[list[int]] = [[]]
+    #     queue: list[int] = []
+    #     visited: list[int] = []
 
-        L.append([])
-        L[0].append(no)
-        queue.append(no)
-        layer = 1
-        while queue:
-            L.append([])
-            current_no = queue.pop(0)
-            visited.append(current_no)
-            for vizinho in self.grafo[current_no]:
-                if vizinho not in visited:
-                    queue.append(vizinho)
-                    visited.append(vizinho)
-                    L[layer].append(vizinho)
-            if len(L[layer]) == 0:
-                return L
-            layer+=1
+    #     L[0].append(no_id)
+    #     queue.append(no_id)
+    #     visited.append(no_id)
+    #     L.append([])
+    #     layer = 1
+    #     while queue:
+    #         no_u = queue.pop(0)
+    #         for vizinho in self.grafo[no_u]:
+    #             if vizinho not in visited:
+    #                 queue.append(vizinho)
+    #                 visited.append(no_u)
+    #                 L[layer].append(vizinho)
+    #         if len(L[layer]) == 0:
+    #             return L
+    #         layer+=1
+    #         L.append([])
+    #     return L
 
+    def __BFS_alg__(self, visited, no_id: int):
+        layers: list[list[int]] = [[]]
+
+        layers[0].append(no_id)
+        visited.add(no_id)
+        grafo_tam = len(self.grafo)
+
+        for i in range(1, grafo_tam):
+            layers.append([])
+            for no in layers[i-1]:
+                for vizinho in self.grafo[no]:
+                    if vizinho not in visited:
+                        layers[i].append(vizinho)
+                        visited.add(vizinho)
+            if len(layers[i]) == 0:
+                layers.pop(i)
+                return layers
+        
+        return layers
+    
+    def BFS(self, visited: set, no_id):
+        L_completo = []
+        L_completo.append(self.__BFS_alg__(visited, no_id))
+        for key in self.grafo:
+            if key not in visited:
+                L_completo.append(self.__BFS_alg__(visited, key))
+        return L_completo
